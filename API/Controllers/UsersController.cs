@@ -11,7 +11,7 @@ namespace API.Controllers
 {
 
 	[ApiController]
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	public class UsersController : ControllerBase
 	{
 		private readonly DataContext _context;
@@ -27,7 +27,7 @@ namespace API.Controllers
 			return await _context.Users.ToListAsync();
 		}
 		
-		//API/Users/[from 0 to 4 or 5]
+		//api/Users/[from 0 to 4 or 5]
 		[HttpGet("{id}")]
 		public async Task<ActionResult<AppUser>> GetUser (int id)
 		{
