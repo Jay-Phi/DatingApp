@@ -1,7 +1,9 @@
 ﻿using System;
+using AutoMapper;
 using API.Interfaces;
 using API.Services;
 using API.Data;
+using API.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +20,8 @@ namespace API.Extensions
 		public static IServiceCollection AddApplicationServices (this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {
                 //Ci-dessous, Default connection fait référence aux données situées dans appsetings.json
