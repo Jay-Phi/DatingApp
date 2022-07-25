@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -44,6 +45,27 @@ namespace API.Controllers
 			var user = await _userRepository.GetMemberAsync(username);
 			return _mapper.Map<MemberDto>(user);
 		}
+
+        [HttpPut]
+		public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        {
+			//Need the token authicated to be sure that the user who updates its profile is the currentUser AND is already logged in
+			//  =>FindFirst the value of claim of the name identifier or username authenticated
+			var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			//Get the app user object
+			var user = await _userRepository.GetUserByUsernameAsync(username);
+
+			_mapper.Map(memberUpdateDto, user);
+
+			_userRepository.Update(user);
+
+			if (await _userRepository.SaveAllAsync())
+            {
+				return NoContent();
+            }
+
+			return BadRequest("Failed to update user");
+        }
 	}
 
 }

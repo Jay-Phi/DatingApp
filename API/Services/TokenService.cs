@@ -52,7 +52,6 @@ namespace API.Services {
 				Subject = new ClaimsIdentity(claims),
 				Expires = DateTime.Now.AddDays(7),
 				SigningCredentials = creds
-
 			};
 
 			//Creation of the handler to get the original token from the server
