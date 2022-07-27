@@ -31,11 +31,7 @@ export class AccountService {
         //Obtention du user dans la réponse
         const user = response;
         if (user) {
-          //"localStorage" se situe dans le moteur de recherche (Chrome, Edge, etc...)
-          //setItem, récupère un élément JSON puis le met à jour
-          localStorage.setItem('user', JSON.stringify(user));
-          //On défini la nouvelle valeur du buffer
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
@@ -46,8 +42,7 @@ export class AccountService {
       .pipe(
         map((user: User) => {
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-            this.currentUserSource.next(user);
+            this.setCurrentUser(user);
           }
         })
       )
@@ -55,6 +50,10 @@ export class AccountService {
 
   //méthode helper
   setCurrentUser(user: User) {
+    //"localStorage" se situe dans le moteur de recherche (Chrome, Edge, etc...)
+    //setItem, récupère un élément JSON puis le met à jour
+    localStorage.setItem('user', JSON.stringify(user));
+     //On défini la nouvelle valeur du buffer
     this.currentUserSource.next(user);
   }
   

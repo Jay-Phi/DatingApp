@@ -15,6 +15,8 @@ namespace API.DTOs
 		[Required]
 		public string Token { get; set; }
 
+		public string PhotoUrl { get; set;}
+
 		public UserDto()
 		{
 			//

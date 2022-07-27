@@ -72,7 +72,9 @@ namespace API.Controllers
 			//Ci-dessouson effectue un select
             //	Et on vérifie s'il y a plusieurs users inscrits en base
             //	si oui une exception est envoyée
-			var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+			var user = await _context.Users
+				.Include(p => p.Photos)//Cas où il n'y a pas de photo
+				.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 			
 			if (user == null)
             {
@@ -97,7 +99,8 @@ namespace API.Controllers
 			return new UserDto
             {
 				Username = user.UserName,
-				Token = _tokenService.CreateToken(user)
+				Token = _tokenService.CreateToken(user),
+				PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
 		}
 	}
