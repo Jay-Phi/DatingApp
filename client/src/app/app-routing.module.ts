@@ -13,7 +13,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
-  //Redirection page d'acceuil avec une url écrite correctement
+  //Redirection page d'accueil avec une url écrite correctement
   { path: '', component: HomeComponent },
   //Gestion de la navigation quand les utilisateurs sont connectés
   {
